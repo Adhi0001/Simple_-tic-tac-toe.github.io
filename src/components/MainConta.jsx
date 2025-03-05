@@ -17,11 +17,10 @@
 
 // export default MainConta
 
-import React from 'react';
-import {useState} from 'react';
+import React, { useState } from 'react';
 import './Main.css'
 
-function calculateWinner(squares){
+function calculateWinner(squares) {
     const lines = [
         [0, 1, 2],
         [3, 4, 5],
@@ -31,38 +30,33 @@ function calculateWinner(squares){
         [2, 5, 8],
         [0, 4, 8],
         [2, 4, 6],
-      ];
-      for (let i = 0; i < lines.length; i++) {
+    ];
+    for (let i = 0; i < lines.length; i++) {
         const [a, b, c] = lines[i];
         if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-          return squares[a];
+            return squares[a];
         }
-      }
-    return null
+    }
+    return null;
 }
 
 const TicTacToe = () => {
-    const boxs = Array.from({ length: 9 }, (_) => null);
-    const [initial, setInitial] = useState(boxs);
+    const initialState = Array.from({ length: 9 }, () => null); // Updated to initialState
+    const [initial, setInitial] = useState(initialState);
     const [isXNext, setIsXNext] = useState(true);
-    
-    const handleClick = () => {
-        setInitial(Array.from({ length: 9 }, (_) => null));
-        setIsXNext(true);
-    };
-    
 
-    const initialX = (i) => {
+    const handleClick = () => {
+        setInitial(initialState); // Reset the game state
+        setIsXNext(true); // Set X to play first
+    };
+
+    const handleBoxClick = (i) => {
         if (calculateWinner(initial) || initial[i]) {
             return;
         }
-        let newBox = initial.slice(0);
-        if (isXNext) {
-            newBox[i] = 'X';
-        } else {
-            newBox[i] = 'O';
-        }
-        setIsXNext((prev) => !prev);
+        const newBox = initial.slice();
+        newBox[i] = isXNext ? 'X' : 'O';
+        setIsXNext(!isXNext);
         setInitial(newBox);
     };
 
@@ -79,18 +73,18 @@ const TicTacToe = () => {
             <div className="status">{status}</div>
             <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
                 <h1 style={{ textAlign: "center" }}>Tick-Tack-Toe</h1>
-               <button className="new-button" onClick={handleClick}>
-                    <blink className="blink">Start New Game</blink>
+                <button className="new-button" onClick={handleClick}>
+                    <span className="blink">Start New Game</span>
                 </button>
                 <div className="grid-container">
-                    {boxs.map((box, i) => {
+                    {initial.map((box, i) => {
                         return (
                             <div
                                 key={i}
-                                className={`box ${initial[i]}`}
-                                onClick={() => initialX(i)}
+                                className={`box ${box}`} // Add box state as class
+                                onClick={() => handleBoxClick(i)} // Updated function name
                             >
-                                {initial[i]}
+                                {box}
                             </div>
                         );
                     })}
@@ -100,5 +94,5 @@ const TicTacToe = () => {
     );
 };
 
-
 export default TicTacToe;
+

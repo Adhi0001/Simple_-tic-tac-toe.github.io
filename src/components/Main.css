@@ -34,15 +34,19 @@
     margin-bottom: 10px;
     text-align: center;
 }
-
+.new-button{
+    margin-bottom: 25px;
+}
 
 .box:hover {
     background-color: rgba(0, 0, 0, 0.1);
 }
-.new-button {
-    margin-bottom: 20px;
-    background-color: rgba(163, 61, 61, 0.1);
+.new-button:hover {
+    background-color: rgba(163, 61, 61, 0.3); /* Make the background slightly darker on hover */
+    cursor: pointer;
+    
 }
+
 @keyframes blink{
     0% { opacity: 1; }
     50% { opacity: 0; }
